@@ -1,0 +1,108 @@
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "setuptools-scm"]
+
+[project]
+authors = [
+  {name = "Farhood Etaati", email = "farhoodetaati@gmail.com"},
+]
+description = "Simple Flask Web API"
+name = "simple-web-api"
+
+classifiers = [
+  "Framework :: Flask",
+  "Programming Language :: Python :: 3",
+  "Database :: Postgres",
+]
+keywords = ["API", "Flask"]
+license = {text = "BSD-3-Clause"}
+requires-python = ">=3.10, <=3.11"
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
+
+
+[too.setuptools]
+package-dir = {"simple_web_api" = "simple_web_api"}
+
+
+[tool.setuptools.dynamic]
+
+dependencies = {file = "requirements.txt"}
+readme = {file = ["README.md"]}
+version = {attr = "simple_web_api.__version__"}
+
+[tool.setuptools.dynamic.optional-dependencies]
+dev = {file = "requirements-dev.txt"}
+
+[tool.pytest.ini_options]
+addopts = [
+  "--strict-markers",
+  "--disable-pytest-warnings",
+  "-ra",
+  "--cov",
+]
+minversion = "6.1"
+testpaths = [
+  "tests",
+]
+
+[tool.coverage.run]
+branch = true
+concurrency = ['thread']
+omit = ['*__init__*']
+source = ["simple_web_api/"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "pragma: no cover",
+  "def __repr__",
+  "def __str__",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "if typing.TYPE_CHECKING:",
+]
+ignore_errors = true
+
+[tool.coverage.html]
+directory = "coverage"
+
+[tool.black]
+# include = '\.pyi?$'
+line-length = 88
+preview = true
+
+[tool.mypy]
+exclude = []
+python_version = "3.10"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+disallow_untyped_defs = false
+ignore_missing_imports = false
+module = "simple_web_api"
+warn_return_any = false
+
+[tool.isort]
+known_third_party = [
+  "api",
+  "boto3",
+  "celery",
+  "cli_manager",
+  "db",
+  "fastapi",
+  "loguru",
+  "pandas",
+  "pydicom",
+  "pytest",
+  "requests",
+  "setuptools",
+  "sqlalchemy",
+  "toml",
+  "typer",
+]
+line_length = 88
+profile = 'black'
+skip = [".gitignore", ".dockerignore"]
