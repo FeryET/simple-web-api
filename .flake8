@@ -5,6 +5,11 @@ exclude =
   .vscode
   .pytest_cache
   .venv
+  log
+  .eggs
+  *.egg
+  .bzr
+  .hg
 
 ignore =
   # "Line lengths are recommended to be no greater than 79 characters"
@@ -29,3 +34,5 @@ select =
   W
   # flake8-bugbear warnings
   B
+
+max-complexity = 10
