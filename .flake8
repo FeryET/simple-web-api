@@ -7,17 +7,25 @@ exclude =
   .venv
 
 ignore =
-  E501 # "Line lengths are recommended to be no greater than 79 characters"
-  E203 # "Whitespace before ':'": conflicts with black
-  W503 # "line break before binary operator": conflicts with black
+  # "Line lengths are recommended to be no greater than 79 characters"
+  E501
+  # "Whitespace before ':'": conflicts with black
+  E203
+  # "line break before binary operator": conflicts with black
+  W503
 
 max-line-length = 88
 per-file-ignores =
     __init__.py:F401,D104
 
 select =
-  E # pep8 errors
-  F # pyflakes errors
-  D # documentation error
-  W # pep8 warnings
-  B # flake8-bugbear warnings
+  # pep8 errors
+  E
+  # pyflakes errors
+  F
+  # documentation error
+  D
+  # pep8 warnings
+  W
+  # flake8-bugbear warnings
+  B
