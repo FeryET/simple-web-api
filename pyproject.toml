@@ -14,15 +14,13 @@ classifiers = [
   "Programming Language :: Python :: 3",
   "Database :: Postgres",
 ]
+dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
 keywords = ["API", "Flask"]
 license = {text = "BSD-3-Clause"}
 requires-python = ">=3.10, <=3.11"
-dynamic = ["version", "readme", "dependencies", "optional-dependencies"]
 
-
-[too.setuptools]
+[tool.setuptools]
 package-dir = {"simple_web_api" = "simple_web_api"}
-
 
 [tool.setuptools.dynamic]
 
@@ -39,6 +37,13 @@ addopts = [
   "--disable-pytest-warnings",
   "-ra",
   "--cov",
+  "--order-scope=session",
+  "--order-group-scope=module",
+]
+markers = [
+  "pre_test_fixtures",
+  "unit",
+  "integration",
 ]
 minversion = "6.1"
 testpaths = [

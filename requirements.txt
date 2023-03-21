@@ -1,3 +1,6 @@
 flask
+flask-pydantic
 sqlalchemy
 gunicorn
+psycopg2-binary
+loguru
