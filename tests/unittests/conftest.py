@@ -1,10 +1,18 @@
 import os
+import pathlib
 
 import pytest
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
 from simple_web_api.model import ItemModel
+
+# Logging Initialization
+LOG_DIR = pathlib.Path("/tmp/simple-web-api/log")
+if LOG_DIR.exists():
+    LOG_DIR.rmdir()
+os.environ["LOG_DIR"] = LOG_DIR
+
 
 # Database Initialization, popping means removing environment variable
 os.environ["DB_USERNAME"] = "postgres"

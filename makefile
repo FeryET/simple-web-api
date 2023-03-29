@@ -6,7 +6,6 @@ SHELL = /bin/bash
 
 ACTIVATE_VENV = source .venv/bin/activate
 
-
 create-venv:
 	@python -m virtualenv .venv
 
