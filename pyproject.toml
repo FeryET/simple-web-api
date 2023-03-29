@@ -37,6 +37,9 @@ addopts = [
   "--disable-pytest-warnings",
   "-ra",
   "--cov",
+  "--cov-config=pyproject.toml",
+  "--cov-report=html",
+  "--cov-report=term",
   "--order-scope=session",
   "--order-group-scope=module",
 ]
@@ -70,7 +73,9 @@ exclude_lines = [
 ignore_errors = true
 
 [tool.coverage.html]
-directory = "coverage"
+directory = "coverage/html"
+[tool.coverage.annotate]
+directory = "coverage/annotate"
 
 [tool.black]
 # include = '\.pyi?$'
