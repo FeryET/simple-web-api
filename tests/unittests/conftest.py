@@ -1,5 +1,4 @@
 import os
-import pathlib
 
 import pytest
 from sqlalchemy.exc import SQLAlchemyError
@@ -7,19 +6,13 @@ from sqlalchemy.orm import Session
 
 from simple_web_api.model import ItemModel
 
-# Logging Initialization
-LOG_DIR = pathlib.Path("/tmp/simple-web-api/log")
-if LOG_DIR.exists():
-    LOG_DIR.rmdir()
-os.environ["LOG_DIR"] = LOG_DIR
+os.environ["ENV_FOR_APP"] = "test"
 
+# from simple_web_api.config import SETTINGS
 
-# Database Initialization, popping means removing environment variable
-os.environ["DB_USERNAME"] = "postgres"
-os.environ["DB_DATABASE"] = "test_simple_web_api_db"
-os.environ["DB_HOST"] = "localhost"
-os.environ["DB_PASSWORD"] = "123456"
-os.environ["DB_PORT"] = "5432"
+# @pytest.fixture(scope="session", autouse=True)
+# def set_test_settings():
+#     SETTINGS.configure(FORCE_ENV_FOR_DYNACONF="test")
 
 
 def clear_test_db(_db_session: Session):

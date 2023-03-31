@@ -1,0 +1,16 @@
+[default]
+database = {host = "localhost", port = "5432", username = "postgres", name = "simple_web_api"}
+log_dir = "./log"
+
+[dev]
+FLASK_DEBUG = true
+log_dir = "./log"
+
+[test]
+FLASK_DEBUG = true
+database = {dynaconf_merge = true, name = "test_simple_web_api_db"}
+log_dir = "/tmp/simple-web-api/log"
+
+[prod]
+database = {dynaconf_merge = true, host = "localhost.prod"}
+log_dir = "/var/log/simple-web-api"

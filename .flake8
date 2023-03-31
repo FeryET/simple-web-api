@@ -22,6 +22,7 @@ ignore =
 max-line-length = 88
 per-file-ignores =
     __init__.py:F401,D104
+    tests/**/*.py:D
 
 select =
   # pep8 errors

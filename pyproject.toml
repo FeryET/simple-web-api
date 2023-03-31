@@ -33,6 +33,9 @@ dev = {file = "requirements-dev.txt"}
 
 [tool.pytest.ini_options]
 addopts = [
+  "-v",
+  "--tb=auto",
+  "-l",
   "--strict-markers",
   "--disable-pytest-warnings",
   "-ra",
