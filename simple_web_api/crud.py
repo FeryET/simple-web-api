@@ -3,26 +3,28 @@ import functools
 from typing import Callable, TypeVar
 
 from sqlalchemy import select
+from sqlalchemy.orm import Session
 from typing_extensions import ParamSpec
 
-from simple_web_api.db import DB_LOGGER, DB_SESSION
+from simple_web_api.db import DB_LOGGER
 from simple_web_api.model import ItemInDB, ItemModel
 
 P = ParamSpec("P")
 T = TypeVar("T")
 
 
-def select_item_by_id(item_id: int) -> ItemInDB:
+def select_item_by_id(item_id: int, db_session: Session) -> ItemInDB:
     """Select an item by its id.
 
     Args:
         item_id (int):
+        db_session (Session):
 
     Returns:
         ItemInDB:
     """
     DB_LOGGER.debug(f"Selecting {item_id} from ItemInDB table.")
-    return DB_SESSION.execute(select(ItemInDB).filter_by(id=item_id)).scalar_one()
+    return db_session.execute(select(ItemInDB).filter_by(id=item_id)).scalar_one()
 
 
 def commit_at_the_end(func: Callable[P, T]) -> Callable[P, T]:
@@ -36,11 +38,11 @@ def commit_at_the_end(func: Callable[P, T]) -> Callable[P, T]:
     """
 
     @functools.wraps(func)
-    def wrapper(*args: P.args, **kwargs: P.kwargs) -> T:
+    def wrapper(*args: P.args, db_session, **kwargs: P.kwargs) -> T:
         DB_LOGGER.debug(f"Executing {func.__name__}.")
-        result = func(*args, **kwargs)
+        result = func(*args, db_session, **kwargs)
         DB_LOGGER.debug(f"Finished executing {func.__name__}.")
-        DB_SESSION.commit()
+        db_session.commit()
         DB_LOGGER.debug("Commited changes.")
         return result
 
@@ -48,25 +50,27 @@ def commit_at_the_end(func: Callable[P, T]) -> Callable[P, T]:
 
 
 @commit_at_the_end
-def create_item(item: ItemModel) -> bool:
+def create_item(item: ItemModel, db_session: Session) -> bool:
     """Create an item in db.
 
     Args:
         item (ItemModel):
+        db_session (Session):
 
     Returns:
         bool: True if transaction is successful.
     """
     db_item = ItemInDB(**item.dict())
-    DB_SESSION.add(db_item)
+    db_session.add(db_item)
     return True
 
 
-def update_item(updated_item_model: ItemModel) -> bool:
+def update_item(updated_item_model: ItemModel, db_session: Session) -> bool:
     """Update an item in the db.
 
     Args:
         updated_item_model (ItemModel):
+        db_session (Session):
 
     Raises:
         ValueError: If the item id is none.
@@ -81,28 +85,30 @@ def update_item(updated_item_model: ItemModel) -> bool:
     return True
 
 
-def read_item(item_id: int) -> ItemModel:
+def read_item(item_id: int, db_session: Session) -> ItemModel:
     """Read an item from the db.
 
     Args:
         item_id (int):
+        db_session (Session):
 
     Returns:
         ItemModel: The returned item.
     """
-    return ItemModel.from_orm(select_item_by_id(item_id))
+    return ItemModel.from_orm(select_item_by_id(item_id, db_session))
 
 
 @commit_at_the_end
-def delete_item(item_id: int) -> bool:
+def delete_item(item_id: int, db_session: Session) -> bool:
     """Delete an item from the db.
 
     Args:
         item_id (int):
+        db_session (Session):
 
     Returns:
         bool:
     """
     item_db: ItemInDB = select_item_by_id(item_id)
-    DB_SESSION.delete(item_db)
+    db_session.delete(item_db)
     return True

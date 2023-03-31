@@ -2,7 +2,6 @@
 
 from loguru import logger
 from sqlalchemy import URL, Engine, create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
 
 from simple_web_api.config import SETTINGS
 
@@ -23,10 +22,6 @@ DB_ENGINE = create_engine(
         port=SETTINGS.database.port,
         drivername="postgresql+psycopg2",
     )
-)
-
-DB_SESSION = scoped_session(
-    sessionmaker(bind=DB_ENGINE, autoflush=True, autocommit=False)
 )
 
 

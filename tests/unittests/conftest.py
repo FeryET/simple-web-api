@@ -23,7 +23,7 @@ def clear_test_db(_db_session: Session):
         _db_session.rollback()
 
 
-@pytest.fixture(scope="package")
+@pytest.fixture(scope="package", autouse=True)
 def db_session():
     from sqlalchemy.orm import scoped_session, sessionmaker
 
