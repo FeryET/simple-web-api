@@ -36,8 +36,7 @@ addopts = [
   "-v",
   "--tb=auto",
   "-l",
-  "--strict-markers",
-  "--disable-pytest-warnings",
+  "--strict-markers", # "--disable-pytest-warnings",
   "-ra",
   "--cov",
   "--cov-config=pyproject.toml",
@@ -55,6 +54,8 @@ minversion = "6.1"
 testpaths = [
   "tests",
 ]
+
+filterwarnings = ["ignore::DeprecationWarning"]
 
 [tool.coverage.run]
 branch = true
